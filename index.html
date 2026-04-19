@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S.T.A.L.K.E.R. 2 — Колекція карток</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -24,33 +24,15 @@
     --zone-gray: #3a4438;
     --zone-red: #8b2222;
   }
-
-  /* Жорстка фіксація екрану */
-  * { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    -webkit-tap-highlight-color: transparent; /* Видаляємо синю рамку при тапі */
-  }
-
-  html, body {
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden; /* Заборона горизонтального скролу */
-    position: relative;
-    overscroll-behavior: none; /* Вимикаємо ефект відскоку в браузері */
-    background: var(--zone-dark);
-  }
-
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
+    background: var(--zone-dark);
     color: var(--zone-text);
     font-family: 'Rajdhani', sans-serif;
     min-height: 100vh;
-    /* Покращуємо рендеринг тексту на мобілках */
-    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    cursor: crosshair;
   }
-
-  /* Тонка лінія сканування (статична для мобілок, щоб не гальмувало) */
   body::before {
     content: '';
     position: fixed;
@@ -62,103 +44,211 @@
 
   header {
     position: relative;
-    padding: 1.5rem 1rem;
+    padding: 2.5rem 2rem 2rem;
     border-bottom: 1px solid var(--zone-border);
     background: linear-gradient(180deg, rgba(15,21,16,0.98) 0%, transparent 100%);
     text-align: center;
   }
-
+  .header-decor {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--zone-green), var(--zone-yellow), var(--zone-green), transparent);
+  }
   .logo-eye {
     display: inline-block;
-    width: 40px; height: 40px;
+    width: 48px; height: 48px;
     border: 2px solid var(--zone-green);
     border-radius: 50%;
     position: relative;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     animation: pulse-border 3s ease-in-out infinite;
   }
   .logo-eye::before {
     content: '';
     position: absolute;
-    inset: 5px;
+    inset: 6px;
     background: var(--zone-green);
     border-radius: 50%;
+    animation: pulse-inner 3s ease-in-out infinite;
   }
-
+  .logo-eye::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    background: var(--zone-dark);
+    border-radius: 50%;
+  }
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 8px rgba(74,124,89,0.3); }
+    50% { box-shadow: 0 0 20px rgba(74,124,89,0.7); }
+  }
+  @keyframes pulse-inner {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
   h1 {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.8rem;
-    letter-spacing: 0.15em;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--zone-text-bright);
+    line-height: 1;
   }
-
+  h1 span { color: var(--zone-green-light); }
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--zone-text-dim);
+    letter-spacing: 0.3em;
+    margin-top: 0.4rem;
+    text-transform: uppercase;
+  }
   .stats-bar {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 2rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
   }
-  .stat-num { font-size: 1.1rem; color: var(--zone-green-light); font-family: 'Share Tech Mono', monospace; }
-  .stat-label { font-size: 0.55rem; color: var(--zone-text-dim); text-transform: uppercase; }
+  .stat-item { text-align: center; font-family: 'Share Tech Mono', monospace; }
+  .stat-num { font-size: 1.4rem; font-weight: 700; color: var(--zone-green-light); display: block; }
+  .stat-label { font-size: 0.65rem; color: var(--zone-text-dim); letter-spacing: 0.15em; text-transform: uppercase; }
+  .progress-bar {
+    width: 200px; height: 4px;
+    background: var(--zone-surface);
+    border-radius: 2px;
+    margin: 0.75rem auto 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--zone-green), var(--zone-yellow));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--zone-text-dim);
+    text-align: center;
+    margin-top: 0.25rem;
+    letter-spacing: 0.1em;
+  }
 
+  /* ADD CARD BAR */
   .add-card-bar {
     display: flex;
     justify-content: center;
-    padding: 0.75rem;
-    background: rgba(15,21,16,0.8);
+    padding: 1.25rem 2rem;
     border-bottom: 1px solid var(--zone-border);
-    gap: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: rgba(15,21,16,0.6);
+    gap: 15px;
+    flex-wrap: wrap;
   }
-
-  .btn-add-card, .btn-reset-pda {
-    flex: 1;
+  .btn-add-card {
     font-family: 'Oswald', sans-serif;
-    font-size: 0.75rem;
-    padding: 0.6rem 0.5rem;
-    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.65rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--zone-green);
+    background: transparent;
+    color: var(--zone-green-light);
     cursor: pointer;
-    touch-action: manipulation;
-    text-align: center;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .btn-add-card:hover {
+    background: rgba(74,124,89,0.12);
+    box-shadow: 0 0 16px rgba(74,124,89,0.2);
+    color: #fff;
+  }
+  
+  /* RESET BUTTON STYLE */
+  .btn-reset-pda {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--zone-red);
+    background: transparent;
+    color: var(--zone-red);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-reset-pda:hover {
+    background: rgba(139, 34, 34, 0.1);
+    box-shadow: 0 0 15px rgba(139, 34, 34, 0.2);
+    color: #ff4d4d;
   }
 
-  .btn-add-card { border: 1px solid var(--zone-green); color: var(--zone-green-light); background: transparent; }
-  .btn-reset-pda { border: 1px solid var(--zone-red); color: var(--zone-red); background: transparent; }
+  main {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-header::before,
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--zone-border);
+  }
+  .section-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--zone-text-dim);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
 
   .grid {
     display: grid;
-    /* Чітко 4 колонки на малих екранах */
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    padding: 8px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
   }
 
   .card-slot {
     aspect-ratio: 2/3;
     position: relative;
+    cursor: pointer;
+    perspective: 800px;
   }
-
   .card-inner {
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.5s;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
   }
   .card-inner.flipped { transform: rotateY(180deg); }
-
   .card-front, .card-back {
     position: absolute;
     inset: 0;
-    border-radius: 4px;
+    border-radius: 8px;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     overflow: hidden;
   }
 
+  /* EMPTY SLOT */
   .card-front.empty {
     background: var(--zone-surface);
     border: 1px dashed var(--zone-border);
@@ -166,35 +256,143 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
   }
-  .slot-num { font-size: 0.5rem; color: var(--zone-text-dim); font-family: 'Share Tech Mono', monospace; }
+  .slot-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--zone-text-dim);
+    letter-spacing: 0.1em;
+  }
+  .slot-text {
+    font-size: 0.55rem;
+    color: var(--zone-text-dim);
+    letter-spacing: 0.08em;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .slot-lock {
+    font-size: 1.2rem;
+    color: var(--zone-gray);
+    opacity: 0.4;
+  }
 
-  .card-front.filled { border: 1px solid var(--zone-border-light); background: var(--zone-mid); }
-  .card-image-area img { width: 100%; height: 100%; object-fit: cover; }
-  
-  .card-info { padding: 4px; background: var(--zone-dark3); text-align: center; }
-  .card-name { font-size: 0.45rem; color: var(--zone-text-bright); font-family: 'Share Tech Mono', monospace; }
+  /* FILLED CARD */
+  .card-front.filled {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--zone-border-light);
+    background: var(--zone-mid);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card-slot:hover .card-front.filled {
+    border-color: rgba(111,184,138,0.4);
+    box-shadow: 0 0 16px rgba(74,124,89,0.15);
+  }
+  .card-image-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--zone-dark2);
+  }
+  .card-image-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .card-info {
+    padding: 5px 7px 6px;
+    background: var(--zone-dark3);
+    border-top: 1px solid var(--zone-border);
+  }
+  .card-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--zone-text-bright);
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+  .flip-hint {
+    position: absolute;
+    bottom: 28px;
+    right: 0; left: 0;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.45rem;
+    color: var(--zone-green);
+    opacity: 0;
+    transition: opacity 0.2s;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+  .card-slot:hover .flip-hint { opacity: 0.8; }
 
+  /* CARD BACK */
   .card-back {
     transform: rotateY(180deg);
-    background: #fff;
+    background: var(--zone-dark2);
+    border: 1px solid var(--zone-border-light);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 10px;
+    gap: 6px;
+  }
+  .card-back .qr-wrapper {
+    background: white;
+    padding: 5px;
+    border-radius: 4px;
+    width: 80px; height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-back .qr-wrapper canvas,
+  .card-back .qr-wrapper img { width: 70px !important; height: 70px !important; }
+  .card-back-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.5rem;
+    color: var(--zone-green-light);
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .card-back-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.65rem;
+    color: var(--zone-text-dim);
+    text-align: center;
+  }
+  .card-back-scan {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.42rem;
+    color: var(--zone-text-dim);
+    text-align: center;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+  .card-back-logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--zone-border-light);
+    text-transform: uppercase;
   }
 
-  /* Модалка на весь екран по ширині для зручності */
+  /* MODAL STYLES */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.88);
     z-index: 1000;
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 1rem;
   }
   .modal-overlay.active { display: flex; }
   .modal {
@@ -202,76 +400,166 @@
     border: 1px solid var(--zone-border-light);
     border-radius: 12px;
     width: 100%;
-    max-width: 360px;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-width: 400px;
+    overflow: hidden;
+    animation: modal-in 0.22s ease;
   }
-
+  @keyframes modal-in {
+    from { opacity: 0; transform: scale(0.93) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--zone-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--zone-text-bright);
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--zone-text-dim);
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 4px;
+  }
+  .modal-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--zone-text-dim);
+  }
+  input[type="url"] {
+    background: var(--zone-surface);
+    border: 1px solid var(--zone-border);
+    border-radius: 6px;
+    color: var(--zone-text-bright);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.85rem;
+    outline: none;
+    width: 100%;
+  }
   .num-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     gap: 4px;
-    padding: 5px;
+    max-height: 160px;
+    overflow-y: auto;
   }
   .num-btn {
     aspect-ratio: 1;
-    font-size: 0.7rem;
+    border-radius: 4px;
     border: 1px solid var(--zone-border);
     background: var(--zone-surface);
     color: var(--zone-text-dim);
-    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .num-btn.selected { border-color: var(--zone-green-light); background: rgba(74,124,89,0.3); color: #fff; }
+  .num-btn.selected { border-color: var(--zone-green-light); background: rgba(74,124,89,0.25); color: #fff; }
+  .num-btn.taken { background: rgba(74,124,89,0.08); color: var(--zone-green); position: relative; }
+  .num-btn.taken::after { content: '✓'; position: absolute; bottom: 1px; right: 2px; font-size: 0.45rem; }
 
-  @keyframes pulse-border {
-    0%, 100% { box-shadow: 0 0 5px rgba(74,124,89,0.3); }
-    50% { box-shadow: 0 0 15px rgba(74,124,89,0.5); }
+  .modal-footer {
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--zone-border);
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
   }
+  .btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-cancel { background: transparent; border: 1px solid var(--zone-border); color: var(--zone-text-dim); }
+  .btn-save { background: var(--zone-green); color: #fff; }
+  .btn-delete { background: transparent; border: 1px solid var(--zone-red); color: var(--zone-red); margin-right: auto; }
 
-  .progress-bar { width: 150px; height: 3px; background: var(--zone-surface); margin: 8px auto; border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--zone-green-light); width: 0%; transition: 0.5s; }
+  footer { text-align: center; padding: 2rem; border-top: 1px solid var(--zone-border); margin-top: 2rem; }
+  footer p { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: var(--zone-text-dim); letter-spacing: 0.15em; }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: repeat(4, 1fr); }
+    .add-card-bar { flex-direction: column; align-items: stretch; }
+    .btn-reset-pda { margin-top: 5px; }
+  }
 </style>
 </head>
 <body>
 
 <header>
+  <div class="header-decor"></div>
   <div class="logo-eye"></div>
   <h1>S.T.A.L.K.E.R. <span>2</span></h1>
+  <p class="subtitle">HEART OF CHORNOBYL // ALMANAC COLLECTOR</p>
   <div class="stats-bar">
-    <div class="stat-item"><span class="stat-num" id="count-collected">0</span><div class="stat-label">Зібрано</div></div>
-    <div class="stat-item"><span class="stat-num">48</span><div class="stat-label">Всього</div></div>
+    <div class="stat-item"><span class="stat-num" id="count-collected">0</span><span class="stat-label">Зібрано</span></div>
+    <div class="stat-item"><span class="stat-num">48</span><span class="stat-label">Всього</span></div>
+    <div class="stat-item"><span class="stat-num" id="count-pct">0%</span><span class="stat-label">Прогрес</span></div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <p class="progress-label" id="progress-label">[ ЗАВАНТАЖЕННЯ АРХІВУ НДІЧАЗ... ]</p>
 </header>
 
 <div class="add-card-bar">
-  <button class="btn-add-card" onclick="openAddModal()">+ КАРТКА</button>
-  <button class="btn-reset-pda" onclick="resetAllData()">ОБНУЛИТИ</button>
+  <button class="btn-add-card" onclick="openAddModal()">
+    <span class="plus-icon">+</span> ДОДАТИ КАРТКУ
+  </button>
+  <button class="btn-reset-pda" onclick="resetAllData()">
+    ОБНУЛИТИ КПК
+  </button>
 </div>
 
 <main>
+  <div class="section-header"><span class="section-title">// АЛЬМАНАХ — КОЛЕКЦІЙНІ КАРТКИ АТБ × GSC GAME WORLD</span></div>
   <div class="grid" id="card-grid"></div>
 </main>
 
+<footer><p>S.T.A.L.K.E.R. 2: Heart of Chornobyl × ATB — 2026</p></footer>
+
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <div class="modal-header" style="padding: 15px; border-bottom: 1px solid var(--zone-border); display: flex; justify-content: space-between;">
-      <span class="modal-title" id="modal-title">Додати</span>
-      <span onclick="closeModal()" style="cursor: pointer;">✕</span>
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Додати картку</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-    <div class="modal-body" style="padding: 15px;">
+    <div class="modal-body">
       <div class="form-group" id="num-group">
-        <label style="font-size: 0.7rem; color: var(--zone-text-dim); display: block; margin-bottom: 5px;">НОМЕР:</label>
+        <label class="form-label">Номер картки</label>
         <div class="num-grid" id="num-grid"></div>
       </div>
-      <div class="form-group" style="margin-top: 15px;">
-        <label style="font-size: 0.7rem; color: var(--zone-text-dim); display: block; margin-bottom: 5px;">QR ПОСИЛАННЯ:</label>
-        <input type="url" id="input-qr" placeholder="https://..." style="width: 100%; background: var(--zone-surface); border: 1px solid var(--zone-border); color: #fff; padding: 10px; border-radius: 6px; font-size: 0.8rem;">
+      <div class="form-group">
+        <label class="form-label">Посилання QR-коду</label>
+        <input type="url" id="input-qr" placeholder="https://s2-atb.com/...">
       </div>
     </div>
-    <div class="modal-footer" style="padding: 15px; border-top: 1px solid var(--zone-border); display: flex; gap: 10px;">
-      <button class="btn btn-delete" id="btn-delete" style="display:none; color: var(--zone-red); background: none; border: none;" onclick="deleteCard()">Видалити</button>
-      <button class="btn btn-save" style="background: var(--zone-green); color: #fff; flex: 1; border: none; padding: 10px; border-radius: 6px;" onclick="saveCard()">ЗБЕРЕГТИ</button>
+    <div class="modal-footer">
+      <button class="btn btn-delete" id="btn-delete" style="display:none" onclick="deleteCard()">Видалити</button>
+      <button class="btn btn-cancel" onclick="closeModal()">Скасувати</button>
+      <button class="btn btn-save" onclick="saveCard()">Зберегти</button>
     </div>
   </div>
 </div>
@@ -279,109 +567,123 @@
 <script>
 const TOTAL = 48;
 const STORAGE_KEY = 'stalker2_v3';
+
 let cards = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
 let currentSlot = null;
+let isEditing = false;
 let qrGenerated = {};
 
 function cardImagePath(num) {
   return 'card-' + String(num).padStart(2,'0') + '.webp';
 }
 
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+  updateStats();
+}
+
 function updateStats() {
   const count = Object.keys(cards).length;
+  const pct = Math.round((count / TOTAL) * 100);
   document.getElementById('count-collected').textContent = count;
-  document.getElementById('progress-fill').style.width = (count / TOTAL * 100) + '%';
+  document.getElementById('count-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = 
+    count === 0 ? '[ ЗАВАНТАЖЕННЯ АРХІВУ НДІЧАЗ... ]' : (count === TOTAL ? '[ КОЛЕКЦІЯ ЗАВЕРШЕНА ]' : `[ ЗІБРАНО ${count} З ${TOTAL} ]`);
 }
 
 function renderGrid() {
   const grid = document.getElementById('card-grid');
   grid.innerHTML = '';
-  for (let i = 1; i <= TOTAL; i++) {
-    const slot = document.createElement('div');
-    slot.className = 'card-slot';
-    const card = cards[i];
-
-    if (!card) {
-      slot.innerHTML = `<div class="card-inner"><div class="card-front empty"><span class="slot-num">#${i}</span></div><div class="card-back"></div></div>`;
-      slot.onclick = () => openAddModal();
-    } else {
-      slot.innerHTML = `
-        <div class="card-inner" id="inner-${i}">
-          <div class="card-front filled">
-            <div class="card-image-area"><img src="${cardImagePath(i)}" onerror="this.style.opacity='0.2'"></div>
-            <div class="card-info"><div class="card-name">#${i}</div></div>
-          </div>
-          <div class="card-back" id="qr-${i}"></div>
-        </div>`;
-      const inner = slot.querySelector('.card-inner');
-      slot.onclick = () => {
-        inner.classList.toggle('flipped');
-        if (inner.classList.contains('flipped')) generateQR(i, card.qrUrl);
-      };
-      // Довге натискання для редагування на телефонах
-      let timer;
-      slot.ontouchstart = () => timer = setTimeout(() => openEditModal(i, card), 600);
-      slot.ontouchend = () => clearTimeout(timer);
-      slot.oncontextmenu = (e) => { e.preventDefault(); openEditModal(i, card); };
-    }
-    grid.appendChild(slot);
-  }
+  for (let i = 1; i <= TOTAL; i++) { grid.appendChild(createSlotEl(i)); }
   updateStats();
 }
 
+function createSlotEl(num) {
+  const slot = document.createElement('div');
+  slot.className = 'card-slot';
+  slot.id = 'slot-' + num;
+  const card = cards[num];
+
+  if (!card) {
+    slot.innerHTML = `<div class="card-inner"><div class="card-front empty"><span class="slot-num">#${String(num).padStart(2,'0')}</span><span class="slot-lock">◌</span><span class="slot-text">ПУСТО</span></div><div class="card-back"></div></div>`;
+  } else {
+    slot.innerHTML = `<div class="card-inner" id="inner-${num}"><div class="card-front filled"><div class="card-image-area"><img src="${cardImagePath(num)}" onerror="this.style.opacity='0.3'"></div><div class="card-info"><div class="card-name">#${String(num).padStart(2,'0')} / 48</div></div><span class="flip-hint">↺ QR-КОД</span></div><div class="card-back" id="back-${num}"><div class="card-back-logo">S.T.A.L.K.E.R. 2</div><div class="qr-wrapper" id="qr-${num}"></div><div class="card-back-num">#${String(num).padStart(2,'0')}</div></div></div>`;
+    const inner = slot.querySelector('.card-inner');
+    slot.addEventListener('click', () => {
+      inner.classList.toggle('flipped');
+      if (inner.classList.contains('flipped')) generateQR(num, card.qrUrl);
+    });
+    slot.addEventListener('contextmenu', (e) => { e.preventDefault(); openEditModal(num, card); });
+  }
+  return slot;
+}
+
 function generateQR(num, url) {
+  if (qrGenerated[num]) return;
+  qrGenerated[num] = true;
   const container = document.getElementById('qr-' + num);
-  if (container.innerHTML !== "") return;
   new QRCode(container, { text: url || 'https://s2-atb.com/', width: 70, height: 70 });
 }
 
-function buildNumGrid(selected) {
+function buildNumGrid(selectedNum) {
   const grid = document.getElementById('num-grid');
   grid.innerHTML = '';
   for (let i = 1; i <= TOTAL; i++) {
     const btn = document.createElement('button');
-    btn.className = 'num-btn' + (cards[i] ? ' taken' : '') + (i === selected ? ' selected' : '');
-    btn.textContent = i;
-    btn.onclick = () => { if(!cards[i]) { 
-      document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected'); currentSlot = i; 
-    }};
+    btn.className = 'num-btn' + (cards[i] ? ' taken' : '') + (i === selectedNum ? ' selected' : '');
+    btn.textContent = String(i).padStart(2,'0');
+    btn.onclick = () => { 
+      if (!cards[i]) { 
+        document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected')); 
+        btn.classList.add('selected'); 
+        currentSlot = i; 
+      } 
+    };
     grid.appendChild(btn);
   }
 }
 
 function openAddModal() {
-  currentSlot = null;
+  isEditing = false; currentSlot = null;
+  document.getElementById('modal-title').textContent = 'Додати картку';
   document.getElementById('input-qr').value = 'https://s2-atb.com/';
   document.getElementById('btn-delete').style.display = 'none';
+  document.getElementById('num-group').style.display = '';
   buildNumGrid(null);
   document.getElementById('modal').classList.add('active');
 }
 
 function openEditModal(num, card) {
-  currentSlot = num;
+  isEditing = true; currentSlot = num;
+  document.getElementById('modal-title').textContent = `Редагувати #${String(num).padStart(2,'0')}`;
   document.getElementById('input-qr').value = card.qrUrl;
-  document.getElementById('btn-delete').style.display = 'block';
+  document.getElementById('btn-delete').style.display = 'inline-block';
   document.getElementById('num-group').style.display = 'none';
   document.getElementById('modal').classList.add('active');
 }
 
 function saveCard() {
-  if (!currentSlot) return alert("Обери номер!");
+  if (!currentSlot) return alert("Виберіть номер!");
   cards[currentSlot] = { qrUrl: document.getElementById('input-qr').value };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
-  closeModal(); renderGrid();
+  save(); closeModal(); renderGrid();
 }
 
 function deleteCard() {
-  if (confirm('Видалити?')) { delete cards[currentSlot]; localStorage.setItem(STORAGE_KEY, JSON.stringify(cards)); closeModal(); renderGrid(); }
+  if (confirm('Видалити?')) { delete cards[currentSlot]; save(); closeModal(); renderGrid(); }
 }
 
-function closeModal() { document.getElementById('modal').classList.remove('active'); document.getElementById('num-group').style.display = 'block'; }
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
 
 function resetAllData() {
-  if (confirm("СТАЛКЕРЕ, ТИ ВПЕВНЕНИЙ? Всі дані будуть стерті!")) {
-    cards = {}; localStorage.removeItem(STORAGE_KEY); renderGrid();
+  if (confirm("УВАГА: Ви збираєтесь видалити ВСІ дані про колекцію. Весь хабар з ПДА буде стерто. Продовжити?")) {
+    if (confirm("ОСТАННЄ ПІДТВЕРДЖЕННЯ: Ви впевнені?")) {
+      cards = {};
+      localStorage.removeItem(STORAGE_KEY);
+      qrGenerated = {};
+      renderGrid();
+      alert("ПДА перезавантажено. База даних порожня.");
+    }
   }
 }
 
