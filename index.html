@@ -138,13 +138,15 @@
     letter-spacing: 0.1em;
   }
 
-  /* ADD CARD BUTTON */
+  /* ADD CARD BAR */
   .add-card-bar {
     display: flex;
     justify-content: center;
     padding: 1.25rem 2rem;
     border-bottom: 1px solid var(--zone-border);
     background: rgba(15,21,16,0.6);
+    gap: 15px;
+    flex-wrap: wrap;
   }
   .btn-add-card {
     font-family: 'Oswald', sans-serif;
@@ -168,9 +170,26 @@
     box-shadow: 0 0 16px rgba(74,124,89,0.2);
     color: #fff;
   }
-  .btn-add-card .plus-icon {
-    font-size: 1.2rem;
-    line-height: 1;
+  
+  /* RESET BUTTON STYLE */
+  .btn-reset-pda {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--zone-red);
+    background: transparent;
+    color: var(--zone-red);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-reset-pda:hover {
+    background: rgba(139, 34, 34, 0.1);
+    box-shadow: 0 0 15px rgba(139, 34, 34, 0.2);
+    color: #ff4d4d;
   }
 
   main {
@@ -364,25 +383,7 @@
     text-transform: uppercase;
   }
 
-  /* Right-click edit badge */
-  .card-edit-hint {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.4rem;
-    background: rgba(74,124,89,0.8);
-    color: #fff;
-    padding: 2px 4px;
-    border-radius: 3px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-    letter-spacing: 0.05em;
-  }
-  .card-slot:hover .card-edit-hint { opacity: 1; }
-
-  /* MODAL */
+  /* MODAL STYLES */
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -430,11 +431,8 @@
     font-size: 1.2rem;
     line-height: 1;
     padding: 4px;
-    transition: color 0.2s;
   }
-  .modal-close:hover { color: var(--zone-text-bright); }
   .modal-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
-
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
   .form-label {
     font-family: 'Share Tech Mono', monospace;
@@ -443,8 +441,7 @@
     text-transform: uppercase;
     color: var(--zone-text-dim);
   }
-
-  select, input[type="text"], input[type="url"] {
+  input[type="url"] {
     background: var(--zone-surface);
     border: 1px solid var(--zone-border);
     border-radius: 6px;
@@ -453,13 +450,8 @@
     font-size: 0.85rem;
     padding: 0.6rem 0.85rem;
     outline: none;
-    transition: border-color 0.2s;
     width: 100%;
   }
-  select:focus, input:focus { border-color: var(--zone-green); }
-  select option { background: var(--zone-dark3); }
-
-  /* Number grid selector */
   .num-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -476,47 +468,14 @@
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.6rem;
     cursor: pointer;
-    transition: all 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .num-btn:hover:not(.taken) {
-    border-color: var(--zone-green);
-    color: var(--zone-green-light);
-    background: rgba(74,124,89,0.1);
-  }
-  .num-btn.selected {
-    border-color: var(--zone-green-light);
-    background: rgba(74,124,89,0.25);
-    color: #fff;
-    font-weight: 600;
-  }
-  .num-btn.taken {
-    background: rgba(74,124,89,0.08);
-    border-color: rgba(74,124,89,0.3);
-    color: var(--zone-green);
-    cursor: default;
-    position: relative;
-  }
-  .num-btn.taken::after {
-    content: '✓';
-    position: absolute;
-    bottom: 1px;
-    right: 2px;
-    font-size: 0.45rem;
-    color: var(--zone-green-light);
-  }
+  .num-btn.selected { border-color: var(--zone-green-light); background: rgba(74,124,89,0.25); color: #fff; }
+  .num-btn.taken { background: rgba(74,124,89,0.08); color: var(--zone-green); position: relative; }
+  .num-btn.taken::after { content: '✓'; position: absolute; bottom: 1px; right: 2px; font-size: 0.45rem; }
 
-  .hint-text {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.55rem;
-    color: var(--zone-text-dim);
-    letter-spacing: 0.05em;
-    line-height: 1.5;
-  }
-
-  /* Card preview in modal */
   .card-preview-box {
     border: 1px solid var(--zone-border);
     border-radius: 6px;
@@ -526,19 +485,8 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    position: relative;
   }
-  .card-preview-box img {
-    height: 100%;
-    object-fit: contain;
-    border-radius: 4px;
-  }
-  .card-preview-placeholder {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--zone-text-dim);
-    letter-spacing: 0.08em;
-  }
+  .card-preview-box img { height: 100%; object-fit: contain; }
 
   .modal-footer {
     padding: 1rem 1.5rem 1.25rem;
@@ -546,7 +494,6 @@
     display: flex;
     gap: 0.75rem;
     justify-content: flex-end;
-    align-items: center;
   }
   .btn {
     font-family: 'Oswald', sans-serif;
@@ -558,48 +505,18 @@
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
   }
-  .btn-cancel {
-    background: transparent;
-    border: 1px solid var(--zone-border);
-    color: var(--zone-text-dim);
-  }
-  .btn-cancel:hover { border-color: var(--zone-border-light); color: var(--zone-text); }
-  .btn-save {
-    background: var(--zone-green);
-    color: #fff;
-  }
-  .btn-save:hover { background: var(--zone-green-light); transform: translateY(-1px); }
-  .btn-delete {
-    background: transparent;
-    border: 1px solid var(--zone-red);
-    color: var(--zone-red);
-    margin-right: auto;
-    font-size: 0.75rem;
-    padding: 0.4rem 0.9rem;
-  }
-  .btn-delete:hover { background: rgba(139,34,34,0.1); }
+  .btn-cancel { background: transparent; border: 1px solid var(--zone-border); color: var(--zone-text-dim); }
+  .btn-save { background: var(--zone-green); color: #fff; }
+  .btn-delete { background: transparent; border: 1px solid var(--zone-red); color: var(--zone-red); margin-right: auto; }
 
-  footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid var(--zone-border);
-    margin-top: 2rem;
-  }
-  footer p {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--zone-text-dim);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
+  footer { text-align: center; padding: 2rem; border-top: 1px solid var(--zone-border); margin-top: 2rem; }
+  footer p { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: var(--zone-text-dim); letter-spacing: 0.15em; }
 
   @media (max-width: 600px) {
-    main { padding: 1rem; }
-    .grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    header { padding: 1.5rem 1rem; }
-    .num-grid { grid-template-columns: repeat(6, 1fr); }
+    .grid { grid-template-columns: repeat(4, 1fr); }
+    .add-card-bar { flex-direction: column; align-items: stretch; }
+    .btn-reset-pda { margin-top: 5px; }
   }
 </style>
 </head>
@@ -611,44 +528,30 @@
   <h1>S.T.A.L.K.E.R. <span>2</span></h1>
   <p class="subtitle">HEART OF CHORNOBYL // ALMANAC COLLECTOR</p>
   <div class="stats-bar">
-    <div class="stat-item">
-      <span class="stat-num" id="count-collected">0</span>
-      <span class="stat-label">Зібрано</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">48</span>
-      <span class="stat-label">Всього</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" id="count-pct">0%</span>
-      <span class="stat-label">Прогрес</span>
-    </div>
+    <div class="stat-item"><span class="stat-num" id="count-collected">0</span><span class="stat-label">Зібрано</span></div>
+    <div class="stat-item"><span class="stat-num">48</span><span class="stat-label">Всього</span></div>
+    <div class="stat-item"><span class="stat-num" id="count-pct">0%</span><span class="stat-label">Прогрес</span></div>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress-fill"></div>
-  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
   <p class="progress-label" id="progress-label">[ ЗАВАНТАЖЕННЯ АРХІВУ НДІЧАЗ... ]</p>
 </header>
 
 <div class="add-card-bar">
   <button class="btn-add-card" onclick="openAddModal()">
-    <span class="plus-icon">+</span>
-    ДОДАТИ КАРТКУ ДО КОЛЕКЦІЇ
+    <span class="plus-icon">+</span> ДОДАТИ КАРТКУ
+  </button>
+  <button class="btn-reset-pda" onclick="resetAllData()">
+    ОБНУЛИТИ ПДА
   </button>
 </div>
 
 <main>
-  <div class="section-header">
-    <span class="section-title">// АЛЬМАНАХ — КОЛЕКЦІЙНІ КАРТКИ АТБ × GSC GAME WORLD</span>
-  </div>
+  <div class="section-header"><span class="section-title">// АЛЬМАНАХ — КОЛЕКЦІЙНІ КАРТКИ АТБ × GSC GAME WORLD</span></div>
   <div class="grid" id="card-grid"></div>
 </main>
 
-<footer>
-  <p>S.T.A.L.K.E.R. 2: Heart of Chornobyl × ATB — 2026 &nbsp;|&nbsp; Колекційна акція &nbsp;|&nbsp; ПКМ на картці для редагування</p>
-</footer>
+<footer><p>S.T.A.L.K.E.R. 2: Heart of Chornobyl × ATB — 2026</p></footer>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-header">
@@ -656,31 +559,20 @@
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
-
-      <!-- Number selector -->
       <div class="form-group" id="num-group">
         <label class="form-label">Номер картки</label>
         <div class="num-grid" id="num-grid"></div>
-        <span class="hint-text">Зелені — вже додані. Клікни на номер для вибору.</span>
       </div>
-
-      <!-- Card auto-preview -->
       <div class="form-group" id="preview-group" style="display:none">
         <label class="form-label">Попередній перегляд</label>
         <div class="card-preview-box">
-          <img id="modal-card-preview" src="" alt="" onerror="this.style.display='none';document.getElementById('preview-miss').style.display='block'">
-          <span id="preview-miss" style="display:none" class="card-preview-placeholder">ФОТО НЕ ЗНАЙДЕНО</span>
+          <img id="modal-card-preview" src="" alt="" onerror="this.style.display='none';">
         </div>
-        <span class="hint-text">// Файл: <span id="preview-filename"></span></span>
       </div>
-
-      <!-- QR URL -->
       <div class="form-group">
-        <label class="form-label">Посилання для QR-коду</label>
+        <label class="form-label">Посилання QR-коду</label>
         <input type="url" id="input-qr" placeholder="https://s2-atb.com/...">
-        <span class="hint-text">// URL активації через застосунок АТБ (зворотня сторона картки)</span>
       </div>
-
     </div>
     <div class="modal-footer">
       <button class="btn btn-delete" id="btn-delete" style="display:none" onclick="deleteCard()">Видалити</button>
@@ -700,6 +592,7 @@ let isEditing = false;
 let qrGenerated = {};
 
 function cardImagePath(num) {
+  // Використовуємо card-01.webp формат (як у твоєму коді)
   return 'card-' + String(num).padStart(2,'0') + '.webp';
 }
 
@@ -714,18 +607,14 @@ function updateStats() {
   document.getElementById('count-collected').textContent = count;
   document.getElementById('count-pct').textContent = pct + '%';
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent =
-    count === 0 ? '[ ЗАВАНТАЖЕННЯ АРХІВУ НДІЧАЗ... ]' :
-    count === TOTAL ? '[ КОЛЕКЦІЯ ЗАВЕРШЕНА — ВХІД У ЗОНУ ВІДКРИТО ]' :
-    `[ ЗІБРАНО ${count} З ${TOTAL} КАРТОК ]`;
+  document.getElementById('progress-label').textContent = 
+    count === 0 ? '[ ЗАВАНТАЖЕННЯ АРХІВУ НДІЧАЗ... ]' : (count === TOTAL ? '[ КОЛЕКЦІЯ ЗАВЕРШЕНА ]' : `[ ЗІБРАНО ${count} З ${TOTAL} ]`);
 }
 
 function renderGrid() {
   const grid = document.getElementById('card-grid');
   grid.innerHTML = '';
-  for (let i = 1; i <= TOTAL; i++) {
-    grid.appendChild(createSlotEl(i));
-  }
+  for (let i = 1; i <= TOTAL; i++) { grid.appendChild(createSlotEl(i)); }
   updateStats();
 }
 
@@ -736,49 +625,15 @@ function createSlotEl(num) {
   const card = cards[num];
 
   if (!card) {
-    slot.innerHTML = `
-      <div class="card-inner">
-        <div class="card-front empty">
-          <span class="slot-num">#${String(num).padStart(2,'0')}</span>
-          <span class="slot-lock">◌</span>
-          <span class="slot-text">ПУСТО</span>
-        </div>
-        <div class="card-back"></div>
-      </div>
-    `;
+    slot.innerHTML = `<div class="card-inner"><div class="card-front empty"><span class="slot-num">#${String(num).padStart(2,'0')}</span><span class="slot-lock">◌</span><span class="slot-text">ПУСТО</span></div><div class="card-back"></div></div>`;
   } else {
-    const imgPath = cardImagePath(num);
-    slot.innerHTML = `
-      <div class="card-inner" id="inner-${num}">
-        <div class="card-front filled">
-          <div class="card-image-area">
-            <img src="${imgPath}" alt="Картка ${num}" onerror="this.style.opacity='0.3'">
-          </div>
-          <div class="card-info">
-            <div class="card-name">#${String(num).padStart(2,'0')} / 48</div>
-          </div>
-          <span class="flip-hint">↺ QR-КОД</span>
-          <span class="card-edit-hint">ПКМ — змінити</span>
-        </div>
-        <div class="card-back" id="back-${num}">
-          <div class="card-back-logo">S.T.A.L.K.E.R. 2</div>
-          <div class="qr-wrapper" id="qr-${num}"></div>
-          <div class="card-back-label">↑ QR-КОД АКТИВАЦІЇ</div>
-          <div class="card-back-scan">Скануй через застосунок АТБ<br>для доступу до аудіоісторії</div>
-          <div class="card-back-num">#${String(num).padStart(2,'0')} · НДІЧАЗ АРХІВ</div>
-        </div>
-      </div>
-    `;
-
+    slot.innerHTML = `<div class="card-inner" id="inner-${num}"><div class="card-front filled"><div class="card-image-area"><img src="${cardImagePath(num)}" onerror="this.style.opacity='0.3'"></div><div class="card-info"><div class="card-name">#${String(num).padStart(2,'0')} / 48</div></div><span class="flip-hint">↺ QR-КОД</span></div><div class="card-back" id="back-${num}"><div class="card-back-logo">S.T.A.L.K.E.R. 2</div><div class="qr-wrapper" id="qr-${num}"></div><div class="card-back-num">#${String(num).padStart(2,'0')}</div></div></div>`;
     const inner = slot.querySelector('.card-inner');
     slot.addEventListener('click', () => {
       inner.classList.toggle('flipped');
-      if (inner.classList.contains('flipped')) generateQR(num, card.qrUrl || 'https://s2-atb.com/');
+      if (inner.classList.contains('flipped')) generateQR(num, card.qrUrl);
     });
-    slot.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      openEditModal(num, card);
-    });
+    slot.addEventListener('contextmenu', (e) => { e.preventDefault(); openEditModal(num, card); });
   }
   return slot;
 }
@@ -787,31 +642,7 @@ function generateQR(num, url) {
   if (qrGenerated[num]) return;
   qrGenerated[num] = true;
   const container = document.getElementById('qr-' + num);
-  if (!container) return;
-  try {
-    new QRCode(container, {
-      text: url,
-      width: 70, height: 70,
-      colorDark: '#0a0e0b',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) {
-    container.innerHTML = '<div style="font-size:9px;color:#6b7d68;font-family:monospace;padding:4px;text-align:center;">QR</div>';
-  }
-}
-
-function showCardPreview(num) {
-  const group = document.getElementById('preview-group');
-  const img = document.getElementById('modal-card-preview');
-  const miss = document.getElementById('preview-miss');
-  const fname = document.getElementById('preview-filename');
-  const path = cardImagePath(num);
-  img.style.display = 'block';
-  miss.style.display = 'none';
-  img.src = path;
-  fname.textContent = path;
-  group.style.display = '';
+  new QRCode(container, { text: url || 'https://s2-atb.com/', width: 70, height: 70 });
 }
 
 function buildNumGrid(selectedNum) {
@@ -819,25 +650,20 @@ function buildNumGrid(selectedNum) {
   grid.innerHTML = '';
   for (let i = 1; i <= TOTAL; i++) {
     const btn = document.createElement('button');
-    btn.className = 'num-btn';
+    btn.className = 'num-btn' + (cards[i] ? ' taken' : '') + (i === selectedNum ? ' selected' : '');
     btn.textContent = String(i).padStart(2,'0');
-    const isTaken = !!cards[i];
-    if (isTaken) btn.classList.add('taken');
-    if (i === selectedNum) btn.classList.add('selected');
-    btn.addEventListener('click', () => {
-      if (isTaken) return;
-      document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      currentSlot = i;
-      showCardPreview(i);
-    });
+    btn.onclick = () => { if (!cards[i]) { document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); currentSlot = i; showPreview(i); } };
     grid.appendChild(btn);
   }
 }
 
+function showPreview(num) {
+  document.getElementById('modal-card-preview').src = cardImagePath(num);
+  document.getElementById('preview-group').style.display = '';
+}
+
 function openAddModal() {
-  isEditing = false;
-  currentSlot = null;
+  isEditing = false; currentSlot = null;
   document.getElementById('modal-title').textContent = 'Додати картку';
   document.getElementById('input-qr').value = 'https://s2-atb.com/';
   document.getElementById('btn-delete').style.display = 'none';
@@ -848,56 +674,39 @@ function openAddModal() {
 }
 
 function openEditModal(num, card) {
-  isEditing = true;
-  currentSlot = num;
+  isEditing = true; currentSlot = num;
   document.getElementById('modal-title').textContent = `Редагувати #${String(num).padStart(2,'0')}`;
-  document.getElementById('input-qr').value = card.qrUrl || 'https://s2-atb.com/';
+  document.getElementById('input-qr').value = card.qrUrl;
   document.getElementById('btn-delete').style.display = 'inline-block';
   document.getElementById('num-group').style.display = 'none';
-  showCardPreview(num);
+  showPreview(num);
   document.getElementById('modal').classList.add('active');
 }
 
-function closeModal() {
-  document.getElementById('modal').classList.remove('active');
-  currentSlot = null;
-  isEditing = false;
-}
-
 function saveCard() {
-  if (!currentSlot) {
-    document.getElementById('num-grid').style.outline = '1px solid var(--zone-red)';
-    setTimeout(() => document.getElementById('num-grid').style.outline = '', 1500);
-    return;
-  }
-  const qrUrl = document.getElementById('input-qr').value.trim() || 'https://s2-atb.com/';
-  cards[currentSlot] = { qrUrl };
-  save();
-  delete qrGenerated[currentSlot];
-  closeModal();
-  const slot = document.getElementById('slot-' + currentSlot);
-  slot.replaceWith(createSlotEl(currentSlot));
-  updateStats();
+  if (!currentSlot) return alert("Виберіть номер!");
+  cards[currentSlot] = { qrUrl: document.getElementById('input-qr').value };
+  save(); closeModal(); renderGrid();
 }
 
 function deleteCard() {
-  if (!confirm('Видалити картку #' + String(currentSlot).padStart(2,'0') + '?')) return;
-  delete cards[currentSlot];
-  delete qrGenerated[currentSlot];
-  save();
-  const num = currentSlot;
-  closeModal();
-  document.getElementById('slot-' + num).replaceWith(createSlotEl(num));
-  updateStats();
+  if (confirm('Видалити?')) { delete cards[currentSlot]; save(); closeModal(); renderGrid(); }
 }
 
-document.getElementById('modal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-  if (e.key === 'Enter' && document.getElementById('modal').classList.contains('active')) saveCard();
-});
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+
+// НОВА ФУНКЦІЯ: ОБНУЛЕННЯ ВСЬОГО
+function resetAllData() {
+  if (confirm("УВАГА: Ви збираєтесь видалити ВСІ дані про колекцію. Весь хабар з ПДА буде стерто. Продовжити?")) {
+    if (confirm("ОСТАННЄ ПІДТВЕРДЖЕННЯ: Ви впевнені?")) {
+      cards = {};
+      localStorage.removeItem(STORAGE_KEY);
+      qrGenerated = {};
+      renderGrid();
+      alert("ПДА перезавантажено. База даних порожня.");
+    }
+  }
+}
 
 renderGrid();
 </script>
