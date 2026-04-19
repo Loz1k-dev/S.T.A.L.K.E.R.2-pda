@@ -476,18 +476,6 @@
   .num-btn.taken { background: rgba(74,124,89,0.08); color: var(--zone-green); position: relative; }
   .num-btn.taken::after { content: '✓'; position: absolute; bottom: 1px; right: 2px; font-size: 0.45rem; }
 
-  .card-preview-box {
-    border: 1px solid var(--zone-border);
-    border-radius: 6px;
-    background: var(--zone-dark2);
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .card-preview-box img { height: 100%; object-fit: contain; }
-
   .modal-footer {
     padding: 1rem 1.5rem 1.25rem;
     border-top: 1px solid var(--zone-border);
@@ -563,12 +551,6 @@
         <label class="form-label">Номер картки</label>
         <div class="num-grid" id="num-grid"></div>
       </div>
-      <div class="form-group" id="preview-group" style="display:none">
-        <label class="form-label">Попередній перегляд</label>
-        <div class="card-preview-box">
-          <img id="modal-card-preview" src="" alt="" onerror="this.style.display='none';">
-        </div>
-      </div>
       <div class="form-group">
         <label class="form-label">Посилання QR-коду</label>
         <input type="url" id="input-qr" placeholder="https://s2-atb.com/...">
@@ -592,7 +574,6 @@ let isEditing = false;
 let qrGenerated = {};
 
 function cardImagePath(num) {
-  // Використовуємо card-01.webp формат (як у твоєму коді)
   return 'card-' + String(num).padStart(2,'0') + '.webp';
 }
 
@@ -652,14 +633,15 @@ function buildNumGrid(selectedNum) {
     const btn = document.createElement('button');
     btn.className = 'num-btn' + (cards[i] ? ' taken' : '') + (i === selectedNum ? ' selected' : '');
     btn.textContent = String(i).padStart(2,'0');
-    btn.onclick = () => { if (!cards[i]) { document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); currentSlot = i; showPreview(i); } };
+    btn.onclick = () => { 
+      if (!cards[i]) { 
+        document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected')); 
+        btn.classList.add('selected'); 
+        currentSlot = i; 
+      } 
+    };
     grid.appendChild(btn);
   }
-}
-
-function showPreview(num) {
-  document.getElementById('modal-card-preview').src = cardImagePath(num);
-  document.getElementById('preview-group').style.display = '';
 }
 
 function openAddModal() {
@@ -668,7 +650,6 @@ function openAddModal() {
   document.getElementById('input-qr').value = 'https://s2-atb.com/';
   document.getElementById('btn-delete').style.display = 'none';
   document.getElementById('num-group').style.display = '';
-  document.getElementById('preview-group').style.display = 'none';
   buildNumGrid(null);
   document.getElementById('modal').classList.add('active');
 }
@@ -679,7 +660,6 @@ function openEditModal(num, card) {
   document.getElementById('input-qr').value = card.qrUrl;
   document.getElementById('btn-delete').style.display = 'inline-block';
   document.getElementById('num-group').style.display = 'none';
-  showPreview(num);
   document.getElementById('modal').classList.add('active');
 }
 
@@ -695,7 +675,6 @@ function deleteCard() {
 
 function closeModal() { document.getElementById('modal').classList.remove('active'); }
 
-// НОВА ФУНКЦІЯ: ОБНУЛЕННЯ ВСЬОГО
 function resetAllData() {
   if (confirm("УВАГА: Ви збираєтесь видалити ВСІ дані про колекцію. Весь хабар з ПДА буде стерто. Продовжити?")) {
     if (confirm("ОСТАННЄ ПІДТВЕРДЖЕННЯ: Ви впевнені?")) {
