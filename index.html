@@ -655,23 +655,39 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ===== BOOT =====
+// Single entry point — avoid double-loading when session already exists
+let appInitialized = false;
+
+async function initApp(user) {
+  if (appInitialized) return;
+  appInitialized = true;
+  showLoading('[ ЗАВАНТАЖЕННЯ КОЛЕКЦІЇ... ]');
+  showAppScreen(user);
+  await loadFromSupabase();
+  renderGrid();
+  hideLoading();
+}
+
+// Handle sign-in / sign-out events AFTER initial load
 sb.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
-    showLoading('[ ЗАВАНТАЖЕННЯ КОЛЕКЦІЇ... ]');
-    showAppScreen(session.user);
-    await loadFromSupabase();
-    renderGrid();
-    hideLoading();
-  } else {
+  if (event === 'SIGNED_IN') {
+    await initApp(session.user);
+  } else if (event === 'SIGNED_OUT') {
+    appInitialized = false;
     cards = {};
     currentUser = null;
     showAuthScreen();
   }
 });
 
+// Check existing session on page load
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
-  if (!session) showAuthScreen();
+  if (session?.user) {
+    await initApp(session.user);
+  } else {
+    showAuthScreen();
+  }
 })();
 </script>
 </body>
